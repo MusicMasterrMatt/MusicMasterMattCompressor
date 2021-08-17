@@ -9,6 +9,8 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+
+
 //==============================================================================
 MusicMasterMattCompressorAudioProcessor::MusicMasterMattCompressorAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -181,6 +183,26 @@ void MusicMasterMattCompressorAudioProcessor::setStateInformation (const void* d
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+}
+
+juce::AudioProcessorValueTreeState::ParameterLayout
+MusicMasterMattCompressorAudioProcessor::createParameterLayout()
+{
+    juce::AudioProcessorValueTreeState::ParameterLayout layout;
+    
+    layout.add(std::make_unique<juce::AudioParameterFloat>("Threshold",
+                                                           "Threshold", juce::NormalisableRange<float>(0, -60, 0.5f, 1), 0.f));
+    
+    layout.add(std::make_unique<juce::AudioParameterFloat>("Ratio",
+                                                          "Ratio", juce::NormalisableRange<float>(1, 40, 1.f, 1), 4.f));
+    
+    layout.add(std::make_unique<juce::AudioParameterFloat>("Attack",
+                                                          "Attack", juce::NormalisableRange<float>(0, 200, 1.f, 1), 13.f));
+    
+    layout.add(std::make_unique<juce::AudioParameterFloat>("Release",
+                                                          "Release", juce::NormalisableRange<float>(5, 5000, 1.f, 0.25), 30.f));
+    
+    return layout;
 }
 
 //==============================================================================

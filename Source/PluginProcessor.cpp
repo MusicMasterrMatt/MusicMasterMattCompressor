@@ -95,8 +95,14 @@ void MusicMasterMattCompressorAudioProcessor::changeProgramName (int index, cons
 //==============================================================================
 void MusicMasterMattCompressorAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    juce::dsp::ProcessSpec spec;
+       spec.numChannels = getTotalNumInputChannels();
+       spec.sampleRate = sampleRate;
+       spec.maximumBlockSize = samplesPerBlock;
+
+    compressor.prepare(spec);
+   
+   
 }
 
 void MusicMasterMattCompressorAudioProcessor::releaseResources()
@@ -146,12 +152,18 @@ void MusicMasterMattCompressorAudioProcessor::processBlock (juce::AudioBuffer<fl
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
+ // I created an Audio Block here
+    juce::dsp::AudioBlock<float> block(buffer);
+    
+    auto leftblock = block.getSingleChannelBlock(0);
+    auto rightblock = block.getSingleChannelBlock(1);
+    
+    juce::dsp::ProcessContextReplacing<float> leftContext(leftblock);
+    juce::dsp::ProcessContextReplacing<float> rightContext(rightblock);
+    
+    leftChain.process(leftContext);
+    rightChain.process(rightContext);
+    
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
@@ -193,7 +205,7 @@ MusicMasterMattCompressorAudioProcessor::createParameterLayout()
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
     
     layout.add(std::make_unique<juce::AudioParameterFloat>("Threshold",
-                                                           "Threshold", juce::NormalisableRange<float>(0, -60, 0.5f, 1), 0.f));
+                                                           "Threshold", juce::NormalisableRange<float>(-60, 0, 0.5f, 1), 0.f));
     
     layout.add(std::make_unique<juce::AudioParameterFloat>("Ratio",
                                                           "Ratio", juce::NormalisableRange<float>(1, 40, 1.f, 1), 4.f));

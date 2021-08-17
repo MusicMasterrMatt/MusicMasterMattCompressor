@@ -62,6 +62,12 @@ private:
     
     juce::dsp::Compressor<float> compressor;
     
+    using MonoChain = juce::dsp::Compressor<float>;
+    
+    MonoChain leftChain, rightChain;
+    
+    
+    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MusicMasterMattCompressorAudioProcessor)
 };

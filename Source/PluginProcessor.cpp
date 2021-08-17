@@ -168,7 +168,9 @@ bool MusicMasterMattCompressorAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* MusicMasterMattCompressorAudioProcessor::createEditor()
 {
-    return new MusicMasterMattCompressorAudioProcessorEditor (*this);
+    //return new MusicMasterMattCompressorAudioProcessorEditor (*this);
+    
+    return new juce::GenericAudioProcessorEditor(*this);
 }
 
 //==============================================================================

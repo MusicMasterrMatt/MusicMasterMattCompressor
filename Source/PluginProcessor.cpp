@@ -102,6 +102,9 @@ void MusicMasterMattCompressorAudioProcessor::prepareToPlay (double sampleRate, 
 
     compressor.prepare(spec);
    
+    auto chainSettings = getChainSettings(apvts);
+    
+    //void juce::dsp::Compressor<<#typename SampleType#>>::process (const ProcessContext & context);
    
 }
 
@@ -199,6 +202,20 @@ void MusicMasterMattCompressorAudioProcessor::setStateInformation (const void* d
     // whose contents will have been created by the getStateInformation() call.
 }
 
+ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& apvts)
+
+{
+ChainSettings settings;
+
+    apvts.getRawParameterValue("Threshold")->load();
+    apvts.getRawParameterValue("Ratio")->load();
+    apvts.getRawParameterValue("Attack")->load();
+    apvts.getRawParameterValue("Release ")->load();
+    
+    return settings;
+}
+
+
 juce::AudioProcessorValueTreeState::ParameterLayout
 MusicMasterMattCompressorAudioProcessor::createParameterLayout()
 {
@@ -224,4 +241,4 @@ MusicMasterMattCompressorAudioProcessor::createParameterLayout()
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new MusicMasterMattCompressorAudioProcessor();
-}
+};

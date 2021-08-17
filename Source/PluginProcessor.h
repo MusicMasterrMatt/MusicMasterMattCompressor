@@ -10,6 +10,17 @@
 
 #include <JuceHeader.h>
 
+struct ChainSettings
+
+{
+    float Threshold {0};
+    float Ratio {0};
+    float Attack {0};
+    float Release {0};
+};
+
+ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& apvts);
+
 //==============================================================================
 /**
 */
@@ -62,10 +73,12 @@ private:
     
     juce::dsp::Compressor<float> compressor;
     
-    using MonoChain = juce::dsp::Compressor<float>;
-    
-    MonoChain leftChain, rightChain;
-    
+    //template <juce::dsp::Compressor<juce::Process>
+    //using Compressor =
+      
+      using MonoChain = juce::dsp::Compressor<float>;
+      
+      MonoChain leftChain, rightChain;
     
     
     //==============================================================================

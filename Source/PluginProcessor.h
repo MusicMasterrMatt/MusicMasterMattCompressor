@@ -10,16 +10,16 @@
 
 #include <JuceHeader.h>
 
-struct ChainSettings
+//struct
 
-{
-    float Threshold {0};
-    float Ratio {0};
-    float Attack {0};
-    float Release {0};
-};
+//{
+    //float Threshold {0};
+    //float Ratio {0};
+    //float Attack {0};
+    //float Release {0};
+//};
 
-ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& apvts);
+
 
 //==============================================================================
 /**
@@ -64,14 +64,16 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
    
-    static juce::AudioProcessorValueTreeState::ParameterLayout
-    createParameterLayout();
+    juce::AudioProcessorValueTreeState apvts;
     
-    juce::AudioProcessorValueTreeState apvts {*this, nullptr, "Parameters", createParameterLayout()};
-    
+
 private:
     
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
+    
     juce::dsp::Compressor<float> compressor;
+    
+    //juce::Slider Threshold;
     
     //template <juce::dsp::Compressor<juce::Process>
     //using Compressor =

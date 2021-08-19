@@ -21,7 +21,7 @@ MusicMasterMattCompressorAudioProcessor::MusicMasterMattCompressorAudioProcessor
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), apvts(*this, nullptr, "Parameter", createParameters())
 #endif
 {
 }
@@ -101,8 +101,8 @@ void MusicMasterMattCompressorAudioProcessor::prepareToPlay (double sampleRate, 
        spec.maximumBlockSize = samplesPerBlock;
 
     compressor.prepare(spec);
+    compressor.reset();
    
-    auto chainSettings = getChainSettings(apvts);
     
     //void juce::dsp::Compressor<<#typename SampleType#>>::process (const ProcessContext & context);
    
@@ -197,38 +197,27 @@ void MusicMasterMattCompressorAudioProcessor::setStateInformation (const void* d
     // whose contents will have been created by the getStateInformation() call.
 }
 
-ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& apvts)
-
+//ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& apvts)
+void parameterChanged (const juce::String& parameterID, float newValue)
 {
-ChainSettings settings;
+    //if (parameterID == "Threshold")
+        //compressor.setThreshold (newValue);
     
-    settings.Threshold = apvts.getRawParameterValue("Threshold")->load();
-    settings.Ratio = apvts.getRawParameterValue("Ratio")->load();
-    settings.Attack = apvts.getRawParameterValue("Attack")->load();
-    settings.Release = apvts.getRawParameterValue("Attack")->load();
-    return settings;
+    
+    
+    
+    
+//ChainSettings settings;
+    
+   // settings.Threshold = apvts.getRawParameterValue("Threshold")->load();
+    //settings.Ratio = apvts.getRawParameterValue("Ratio")->load();
+    //settings.Attack = apvts.getRawParameterValue("Attack")->load();
+    //settings.Release = apvts.getRawParameterValue("Attack")->load();
+    //return settings;
 }
 
 
-juce::AudioProcessorValueTreeState::ParameterLayout
-MusicMasterMattCompressorAudioProcessor::createParameterLayout()
-{
-    juce::AudioProcessorValueTreeState::ParameterLayout layout;
-    
-    layout.add(std::make_unique<juce::AudioParameterFloat>("Threshold",
-                                                           "Threshold", juce::NormalisableRange<float>(-60, 0, 0.5f, 1), 0.f));
-    
-    layout.add(std::make_unique<juce::AudioParameterFloat>("Ratio",
-                                                          "Ratio", juce::NormalisableRange<float>(1, 40, 1.f, 1), 4.f));
-    
-    layout.add(std::make_unique<juce::AudioParameterFloat>("Attack",
-                                                          "Attack", juce::NormalisableRange<float>(0, 200, 1.f, 1), 13.f));
-    
-    layout.add(std::make_unique<juce::AudioParameterFloat>("Release",
-                                                          "Release", juce::NormalisableRange<float>(5, 5000, 1.f, 0.25), 30.f));
-    
-    return layout;
-}
+
 
 //==============================================================================
 // This creates new instances of the plugin..
@@ -236,3 +225,18 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new MusicMasterMattCompressorAudioProcessor();
 };
+
+juce::AudioProcessorValueTreeState::ParameterLayout
+MusicMasterMattCompressorAudioProcessor::createParameters()
+{
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+    
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("THRESHOLD", "Threshold",-60.f, 0.f, 0.f)); // There is no SKEW option though :(
+    
+    //params.push_back(std::make_unique<juce::AudioParameterFloat>("RATIO", "Ratio",1.f, 40.f, 1.f)); //
+    //params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack",0.f, 200.f, 13.f));
+    //params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release",5.f, 5000.f, 1.f)); ////check that final section is the SKEW and INTERVALS  are  in the Slider clas
+
+    
+    return { params.begin(), params.end() };
+}

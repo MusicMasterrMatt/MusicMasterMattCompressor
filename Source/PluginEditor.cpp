@@ -13,6 +13,14 @@
 MusicMasterMattCompressorAudioProcessorEditor::MusicMasterMattCompressorAudioProcessorEditor (MusicMasterMattCompressorAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
+    ThresholdSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+    ThresholdSlider.setTextBoxStyle(juce::Slider::TextBoxAbove, true, 100, 100);
+    ThresholdSlider.setRange(-60, 0, 0.25);
+    ThresholdSlider.setValue(0);//set the defualt setting
+    addAndMakeVisible(ThresholdSlider);
+    
+    ThresholdSliderAttatchment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "THRESHOLD", ThresholdSlider);
+    
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (400, 300);
@@ -26,15 +34,13 @@ MusicMasterMattCompressorAudioProcessorEditor::~MusicMasterMattCompressorAudioPr
 void MusicMasterMattCompressorAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
-    g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    g.fillAll (juce::Colours::black);
+    
 }
 
 void MusicMasterMattCompressorAudioProcessorEditor::resized()
 {
+    ThresholdSlider.setBounds(getWidth() / 2 - 200, getHeight() / 2 - 100, 400, 200);
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
 }

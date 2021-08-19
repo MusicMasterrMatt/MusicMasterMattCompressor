@@ -76,7 +76,7 @@ private:
     //template <juce::dsp::Compressor<juce::Process>
     //using Compressor =
       
-      using ChainSettings = juce::dsp::Compressor<float>;
+  
       
  
     

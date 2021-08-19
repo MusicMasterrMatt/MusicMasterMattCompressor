@@ -40,7 +40,7 @@ void MusicMasterMattCompressorAudioProcessorEditor::paint (juce::Graphics& g)
 
 void MusicMasterMattCompressorAudioProcessorEditor::resized()
 {
-    ThresholdSlider.setBounds(getWidth() / 2 - 200, getHeight() / 2 - 100, 400, 200);
+    ThresholdSlider.setBounds(getWidth() / 2 - 100, getHeight() / 2 - 50, 200, 100);
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
 }

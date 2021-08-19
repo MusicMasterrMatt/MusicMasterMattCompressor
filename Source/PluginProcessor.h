@@ -76,9 +76,9 @@ private:
     //template <juce::dsp::Compressor<juce::Process>
     //using Compressor =
       
-      using MonoChain = juce::dsp::Compressor<float>;
+      using ChainSettings = juce::dsp::Compressor<float>;
       
-      MonoChain leftChain, rightChain;
+ 
     
     
     //==============================================================================

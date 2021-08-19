@@ -157,15 +157,10 @@ void MusicMasterMattCompressorAudioProcessor::processBlock (juce::AudioBuffer<fl
 
  // I created an Audio Block here
     juce::dsp::AudioBlock<float> block(buffer);
+    compressor.process(juce::dsp::ProcessContextReplacing<float>(block));
+ 
     
-    auto leftblock = block.getSingleChannelBlock(0);
-    auto rightblock = block.getSingleChannelBlock(1);
-    
-    juce::dsp::ProcessContextReplacing<float> leftContext(leftblock);
-    juce::dsp::ProcessContextReplacing<float> rightContext(rightblock);
-    
-    leftChain.process(leftContext);
-    rightChain.process(rightContext);
+
     
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
@@ -206,12 +201,11 @@ ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& apvts)
 
 {
 ChainSettings settings;
-
-    apvts.getRawParameterValue("Threshold")->load();
-    apvts.getRawParameterValue("Ratio")->load();
-    apvts.getRawParameterValue("Attack")->load();
-    apvts.getRawParameterValue("Release ")->load();
     
+    settings.Threshold = apvts.getRawParameterValue("Threshold")->load();
+    settings.Ratio = apvts.getRawParameterValue("Ratio")->load();
+    settings.Attack = apvts.getRawParameterValue("Attack")->load();
+    settings.Release = apvts.getRawParameterValue("Attack")->load();
     return settings;
 }
 

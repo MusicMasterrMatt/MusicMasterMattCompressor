@@ -27,7 +27,8 @@ public:
 private:
     juce::Slider ThresholdSlider;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> ThresholdSliderAttatchment;
-    
+    juce::Slider RatioSlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> RatioSliderAttatchment;
     
     
     // This reference is provided as a quick way for your editor to

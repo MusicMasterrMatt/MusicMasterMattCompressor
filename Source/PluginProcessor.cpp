@@ -146,6 +146,7 @@ void MusicMasterMattCompressorAudioProcessor::processBlock (juce::AudioBuffer<fl
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+  
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).
@@ -178,9 +179,9 @@ bool MusicMasterMattCompressorAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* MusicMasterMattCompressorAudioProcessor::createEditor()
 {
-    //return new MusicMasterMattCompressorAudioProcessorEditor (*this);
+    return new MusicMasterMattCompressorAudioProcessorEditor (*this);
     
-    return new juce::GenericAudioProcessorEditor(*this);
+    //return new juce::GenericAudioProcessorEditor(*this); <----- no longer needed
 }
 
 //==============================================================================
@@ -198,8 +199,8 @@ void MusicMasterMattCompressorAudioProcessor::setStateInformation (const void* d
 }
 
 //ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& apvts)
-void parameterChanged (const juce::String& parameterID, float newValue)
-{
+//void parameterChanged (const juce::String& parameterID, float newValue) dont need this now
+//{
     //if (parameterID == "Threshold")
         //compressor.setThreshold (newValue);
     
@@ -214,7 +215,7 @@ void parameterChanged (const juce::String& parameterID, float newValue)
     //settings.Attack = apvts.getRawParameterValue("Attack")->load();
     //settings.Release = apvts.getRawParameterValue("Attack")->load();
     //return settings;
-}
+//}
 
 
 
@@ -233,7 +234,7 @@ MusicMasterMattCompressorAudioProcessor::createParameters()
     
     params.push_back(std::make_unique<juce::AudioParameterFloat>("THRESHOLD", "Threshold",-60.f, 0.f, 0.f)); // There is no SKEW option though :(
     
-    //params.push_back(std::make_unique<juce::AudioParameterFloat>("RATIO", "Ratio",1.f, 40.f, 1.f)); //
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("RATIO", "Ratio",1.f, 40.f, 1.f)); //
     //params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack",0.f, 200.f, 13.f));
     //params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release",5.f, 5000.f, 1.f)); ////check that final section is the SKEW and INTERVALS  are  in the Slider clas
 

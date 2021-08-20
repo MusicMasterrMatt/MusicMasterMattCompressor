@@ -1,10 +1,4 @@
-/*
-  ==============================================================================
 
-    This file contains the basic framework code for a JUCE plugin processor.
-
-  ==============================================================================
-*/
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
@@ -22,6 +16,7 @@ MusicMasterMattCompressorAudioProcessor::MusicMasterMattCompressorAudioProcessor
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
                        ), apvts(*this, nullptr, "Parameter", createParameters())
+
 #endif
 {
 }
@@ -142,17 +137,20 @@ bool MusicMasterMattCompressorAudioProcessor::isBusesLayoutSupported (const Buse
 
 void MusicMasterMattCompressorAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
+    
+    //auto currentThreshold = thresholdRaw->load();
+    //auto currentRatio = ratioRaw->load();
+    
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
     
     
     //added 20 Aug 5pm
-    auto currentThreshold = thresholdRaw->load();
-    auto currentRatio = ratioRaw->load();
+   
     //added 20 Aug 5pm
-    compressor.setThreshold (currentThreshold);
-    compressor.setRatio (currentRatio);
+    //compressor.setThreshold (currentThreshold);
+    //compressor.setRatio (currentRatio);
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).
@@ -254,6 +252,11 @@ MusicMasterMattCompressorAudioProcessor::createParameters()
     //added  20Aug
     thresholdRaw  = apvts.getRawParameterValue ("THRESHOLD");
     ratioRaw      = apvts.getRawParameterValue ("RATIO");
+    
+    // If any of these assertions are hit, the parameter ID string specified above doesn't match any existing parameter
+//    jassert (thresholdRaw != nullptr);
+  //  jassert (ratioRaw != nullptr);
+
     
     return { params.begin(), params.end() };
 }

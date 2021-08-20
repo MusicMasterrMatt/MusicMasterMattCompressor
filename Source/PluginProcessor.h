@@ -73,16 +73,15 @@ private:
 
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
     
-    
-    //added 20 Aug
     std::atomic<float>* thresholdRaw = nullptr;
     std::atomic<float>* ratioRaw = nullptr;
- 
+    
+    
     juce::dsp::Compressor<float> compressor;
     
-  
-    
+
     //juce::Slider Threshold;
+    //juce::Slider Ratio;
     
     //template <juce::dsp::Compressor<juce::Process>
     //using Compressor =

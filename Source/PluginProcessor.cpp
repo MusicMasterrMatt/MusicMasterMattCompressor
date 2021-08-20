@@ -145,10 +145,12 @@ void MusicMasterMattCompressorAudioProcessor::processBlock (juce::AudioBuffer<fl
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
-
+    
+    
+    //added 20 Aug 5pm
     auto currentThreshold = thresholdRaw->load();
     auto currentRatio = ratioRaw->load();
-    
+    //added 20 Aug 5pm
     compressor.setThreshold (currentThreshold);
     compressor.setRatio (currentRatio);
     // In case we have more outputs than inputs, this code clears any output
@@ -164,7 +166,7 @@ void MusicMasterMattCompressorAudioProcessor::processBlock (juce::AudioBuffer<fl
     //juce::dsp::AudioBlock<float> block(buffer);
     //compressor.process(juce::dsp::ProcessContextReplacing<float>(block));
   
-    
+    //added 20 Aug 5pm
     juce::dsp::AudioBlock<float> block (buffer);
     juce::dsp::ProcessContextReplacing<float> context (block);
     compressor.process(context);
@@ -245,6 +247,8 @@ MusicMasterMattCompressorAudioProcessor::createParameters()
     params.push_back(std::make_unique<juce::AudioParameterFloat>("RATIO", "Ratio",1.f, 40.f, 1.f)); //
     //params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack",0.f, 200.f, 13.f));
     //params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release",5.f, 5000.f, 1.f)); ////check that final section is the SKEW and INTERVALS  are  in the Slider clas
+    
+    //added  20Aug
     thresholdRaw  = apvts.getRawParameterValue ("THRESHOLD");
     ratioRaw      = apvts.getRawParameterValue ("RATIO");
     

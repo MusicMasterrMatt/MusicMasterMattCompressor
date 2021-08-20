@@ -74,7 +74,7 @@ private:
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
     
     
-    
+    //added 20 Aug
     std::atomic<float>* thresholdRaw = nullptr;
     std::atomic<float>* ratioRaw = nullptr;
  

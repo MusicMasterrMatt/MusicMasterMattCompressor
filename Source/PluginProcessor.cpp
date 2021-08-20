@@ -157,10 +157,12 @@ void MusicMasterMattCompressorAudioProcessor::processBlock (juce::AudioBuffer<fl
         buffer.clear (i, 0, buffer.getNumSamples());
 
  // I created an Audio Block here
-    juce::dsp::AudioBlock<float> block(buffer);
-    compressor.process(juce::dsp::ProcessContextReplacing<float>(block));
+    //juce::dsp::AudioBlock<float> block(buffer);
+    //compressor.process(juce::dsp::ProcessContextReplacing<float>(block));
  
-    
+    juce::dsp::AudioBlock<float> block (buffer);
+    juce::dsp::ProcessContextReplacing<float> context (block);
+    compressor.process(context);
 
     
     for (int channel = 0; channel < totalNumInputChannels; ++channel)

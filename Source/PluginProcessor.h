@@ -64,14 +64,23 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
    
-    juce::AudioProcessorValueTreeState apvts;
+    juce::AudioProcessorValueTreeState apvts; // THIS IS A CONSTRUCTER
+
     
 
+
 private:
-    
+
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
     
+    
+    
+    std::atomic<float>* thresholdRaw = nullptr;
+    std::atomic<float>* ratioRaw = nullptr;
+ 
     juce::dsp::Compressor<float> compressor;
+    
+  
     
     //juce::Slider Threshold;
     

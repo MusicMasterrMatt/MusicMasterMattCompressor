@@ -15,7 +15,7 @@ MusicMasterMattCompressorAudioProcessor::MusicMasterMattCompressorAudioProcessor
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       ), apvts(*this, nullptr, "Parameter", createParameters())
+                       ), apvts (*this, nullptr, "Parameter", createParameters())
 
 #endif
 {
@@ -100,7 +100,7 @@ void MusicMasterMattCompressorAudioProcessor::prepareToPlay (double sampleRate, 
        spec.maximumBlockSize = samplesPerBlock;
 
     compressor.prepare(spec);
-    compressor.reset();
+    //compressor.reset();
    
     
     //void juce::dsp::Compressor<<#typename SampleType#>>::process (const ProcessContext & context);
@@ -109,6 +109,7 @@ void MusicMasterMattCompressorAudioProcessor::prepareToPlay (double sampleRate, 
 
 void MusicMasterMattCompressorAudioProcessor::releaseResources()
 {
+    compressor.reset();
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 }
@@ -155,6 +156,7 @@ void MusicMasterMattCompressorAudioProcessor::processBlock (juce::AudioBuffer<fl
     //added 20 Aug 5pm
     //compressor.setThreshold (currentThreshold);
     //compressor.setRatio (currentRatio);
+    
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).
@@ -219,8 +221,8 @@ void parameterChanged (const juce::String& parameterID, float newValue)
     //
 if (parameterID == "THRESHOLD")
         compressor.setThreshold (newValue);
-    
-    if (parameterID == "RATIO")
+
+if (parameterID == "RATIO")
             compressor.setThreshold (newValue);
     
 }

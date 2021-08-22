@@ -65,8 +65,8 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
    
     static juce::AudioProcessorValueTreeState apvts; // THIS IS A CONSTRUCTER
-
-    
+    apvts.addParameterListener ("THRESHOLD");
+    apvts.addParameterListener ("RATIO");
 
 
 private:

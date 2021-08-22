@@ -19,6 +19,10 @@ MusicMasterMattCompressorAudioProcessor::MusicMasterMattCompressorAudioProcessor
 
 #endif
 {
+    
+    thresholdRaw  = apvts.getRawParameterValue ("THRESHOLD");
+    ratioRaw      = apvts.getRawParameterValue ("RATIO");
+    
 }
 
 MusicMasterMattCompressorAudioProcessor::~MusicMasterMattCompressorAudioProcessor()
@@ -210,14 +214,16 @@ void MusicMasterMattCompressorAudioProcessor::setStateInformation (const void* d
 }
 
 //ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& apvts)
-//void parameterChanged (const juce::String& parameterID, float newValue) dont need this now
-//{
-    //if (parameterID == "Threshold")
-        //compressor.setThreshold (newValue);
+void parameterChanged (const juce::String& parameterID, float newValue)
+{
+    //
+if (parameterID == "THRESHOLD")
+        compressor.setThreshold (newValue);
     
+    if (parameterID == "RATIO")
+            compressor.setThreshold (newValue);
     
-    
-    
+}
     
 //ChainSettings settings;
     
@@ -250,9 +256,7 @@ MusicMasterMattCompressorAudioProcessor::createParameters()
     //params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release",5.f, 5000.f, 1.f)); ////check that final section is the SKEW and INTERVALS  are  in the Slider clas
     
     //added  20Aug
-    thresholdRaw  = apvts.getRawParameterValue ("THRESHOLD");
-    ratioRaw      = apvts.getRawParameterValue ("RATIO");
-    
+
     // If any of these assertions are hit, the parameter ID string specified above doesn't match any existing parameter
 //    jassert (thresholdRaw != nullptr);
   //  jassert (ratioRaw != nullptr);
